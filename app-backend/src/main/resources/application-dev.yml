@@ -1,0 +1,33 @@
+springdoc:
+  api-docs:
+    path: /ketmon
+  swagger-ui:
+    path: /my-swagger/index.html
+    operationsSorter: method
+app:
+  user:
+    email: sirojiddinecma@gmail.com
+    password: 123
+    name: Siroj
+  createBean: true
+  jwt:
+    access:
+      key: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+      expiration: 3600000
+    refresh:
+      key: 39792F423F4528482B4D6251655468576D5A713474375367566B597033733676
+      expiration: 86400000
+
+spring:
+  datasource:
+    #    url: jdbc:h2:file:/data/demo
+    url: jdbc:postgresql://localhost:5432/book_store
+    password: root123
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  data:
+    rest:
+      base-path: /api
