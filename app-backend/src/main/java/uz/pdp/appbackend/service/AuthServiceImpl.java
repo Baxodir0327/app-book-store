@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.appbackend.entity.User;
 import uz.pdp.appbackend.exceptions.ApiResult;
 import uz.pdp.appbackend.exceptions.RestException;
+import uz.pdp.appbackend.payload.ConfirmAdminDTO;
 import uz.pdp.appbackend.payload.LoginDTO;
 import uz.pdp.appbackend.payload.TokenDTO;
 import uz.pdp.appbackend.repository.UserRepository;
@@ -79,6 +80,12 @@ public class AuthServiceImpl implements AuthService {
         TokenDTO tokenDTO = generateTokenDTO(new UserPrincipal(user));
 
         return ApiResult.successResponse(tokenDTO);
+    }
+
+    @Override
+    public ApiResult<TokenDTO> confirmAdmin(ConfirmAdminDTO confirmAdminDTO) {
+        //todo type code
+        return null;
     }
 
     private TokenDTO generateTokenDTO(UserPrincipal principal) {

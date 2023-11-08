@@ -19,13 +19,13 @@ public class User extends AbsUUIDEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String name;
 
-    private boolean enabled;
+    @Builder.Default
+    private boolean enabled = false;
 
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;

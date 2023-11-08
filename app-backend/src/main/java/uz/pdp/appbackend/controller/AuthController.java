@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.appbackend.exceptions.ApiResult;
+import uz.pdp.appbackend.payload.ConfirmAdminDTO;
 import uz.pdp.appbackend.payload.LoginDTO;
 import uz.pdp.appbackend.payload.TokenDTO;
 import uz.pdp.appbackend.utils.AppConstants;
@@ -13,8 +14,8 @@ public interface AuthController {
 
     String BASE_PATH = "/api/auth";
     String LOGIN_PATH = "/login";
-
     String REFRESH_TOKEN_PATH = "/refresh-token";
+    String CONFIRM_FOR_ADMIN_PATH = "/confirm-for-admin";
 
     @PostMapping(LOGIN_PATH)
     HttpEntity<ApiResult<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO);
@@ -25,5 +26,6 @@ public interface AuthController {
             @RequestHeader(AppConstants.REFRESH_AUTH_HEADER) String refreshToken
     );
 
-
+    @PostMapping(CONFIRM_FOR_ADMIN_PATH)
+    HttpEntity<ApiResult<TokenDTO>> confirmForAdmin(@Valid @RequestBody ConfirmAdminDTO confirmAdminDTO);
 }
