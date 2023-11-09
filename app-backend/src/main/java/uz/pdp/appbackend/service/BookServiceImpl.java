@@ -95,7 +95,7 @@ public record BookServiceImpl(BookRepository bookRepository,
         List<UUID> idList = bookRepository.findAllByMyQuery(query);
 
 //        List<Book> books = bookRepository.findAllById(idList);
-//        Map<UUID, Book> map = new HashMap<>();
+//        Map<UUID, Book> map = new HashMap<>();x
 //        books.forEach(book -> map.put(book.getId(), book));
 //        Function<Book, Book> function = Function.identity();
 

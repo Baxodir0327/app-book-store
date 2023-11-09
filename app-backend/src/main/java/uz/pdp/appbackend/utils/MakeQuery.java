@@ -23,7 +23,9 @@ public class MakeQuery {
         addFilterQuery(sb, filter, isFiltering);
         addOrderByPart(mainCriteriaDTO, sb);
         addOffsetPart(mainCriteriaDTO, sb);
-        return sb.toString();
+        String result = sb.toString();
+        System.out.println("QUERY RESULT: " + result);
+        return result;
     }
 
     private static void addFilterQuery(StringBuilder sb, FilterDTO filter, boolean isFiltering) {
