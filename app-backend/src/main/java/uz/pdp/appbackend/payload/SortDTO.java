@@ -8,5 +8,5 @@ public class SortDTO {
 
     private Sort.Direction direction;
 
-    private String sort;
+    private String column;
 }

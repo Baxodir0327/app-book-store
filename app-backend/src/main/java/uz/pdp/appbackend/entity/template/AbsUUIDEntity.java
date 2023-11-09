@@ -14,7 +14,6 @@ import java.util.UUID;
 @Setter
 public abstract class AbsUUIDEntity extends AbsDateEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

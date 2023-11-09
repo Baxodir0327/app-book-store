@@ -31,7 +31,7 @@ public class Book extends AbsUUIDEntity {
 
     private double price;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_sample_id")
     private Attachment readSample;
 

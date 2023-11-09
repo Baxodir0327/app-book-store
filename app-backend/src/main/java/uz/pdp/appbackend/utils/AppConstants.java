@@ -15,4 +15,8 @@ public interface AppConstants {
     String[] GET_METHOD_OPEN_PAGES = {
             AttachmentController.BASE_PATH + "**"
     };
+
+    static String QUERY(){
+        return "";
+    }
 }

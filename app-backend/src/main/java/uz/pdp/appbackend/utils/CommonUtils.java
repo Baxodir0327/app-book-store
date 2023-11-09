@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uz.pdp.appbackend.exceptions.RestException;
+import uz.pdp.appbackend.payload.MainCriteriaDTO;
 import uz.pdp.appbackend.security.UserPrincipal;
 
 import java.util.Optional;
@@ -21,4 +22,5 @@ public class CommonUtils {
                 "User not authenticated",
                 HttpStatus.UNAUTHORIZED));
     }
+
 }

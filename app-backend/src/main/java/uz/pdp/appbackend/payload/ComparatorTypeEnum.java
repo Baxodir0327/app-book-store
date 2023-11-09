@@ -2,7 +2,7 @@ package uz.pdp.appbackend.payload;
 
 public enum ComparatorTypeEnum {
     EQ,
-    NEQ,
+    NOT,
     LT,
     LTE,
     GT,

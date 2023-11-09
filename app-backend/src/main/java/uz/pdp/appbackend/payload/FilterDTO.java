@@ -8,13 +8,27 @@ import java.util.List;
 @Data
 public class FilterDTO {
 
-    private FilterOperatorEnum filterOperator;
+    private String search;//undatio
 
-    private String search;
+    private List<String> searchingColumns;//[author, title]
 
-    private List<String> searchingColumns;
+    private FilterOperatorEnum filterOperator; //OR
 
-    private FilterField filterField;
+    private List<FilterField> filterFields;//
+    // [{column: 'price',
+    // columnType: 'MONEY',
+    // comparatorType: 'RA',
+    // value: {
+    //      minValue: 10,
+    //      maxValue: 20}
+    // },
+    // {column: 'pageCount',
+    //    // columnType: 'NUMBER',
+    //    // comparatorType: 'GTE',
+    //    // value: {
+    //    //      minValue: 500
+    //    }
+    //    // }]
 
 
 }

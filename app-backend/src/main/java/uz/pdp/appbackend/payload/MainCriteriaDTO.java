@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 public class MainCriteriaDTO {
 
-    private int page;
+    private int page = 0;
 
-    private int size;
+    private int size = 10;
 
-    private List<SortDTO> sorts;
+    private List<SortDTO> sorts;//[] null
 
     private FilterDTO filter;
 }
