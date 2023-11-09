@@ -21,6 +21,4 @@ public interface BookService {
     ApiResult<PaginationDTO<BookDTO>> listForAdmin(MainCriteriaDTO mainCriteriaDTO);
 
     ApiResult<PaginationDTO<BookDTO>> listForUser(MainCriteriaDTO mainCriteriaDTO);
-
-    String makeQuery(MainCriteriaDTO mainCriteriaDTO);
 }
