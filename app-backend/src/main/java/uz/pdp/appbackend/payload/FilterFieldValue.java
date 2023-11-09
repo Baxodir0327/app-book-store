@@ -14,4 +14,6 @@ public class FilterFieldValue {
     private Long startDate;
 
     private Long endDate;
+
+    private boolean checkBoxValue;
 }

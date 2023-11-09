@@ -110,6 +110,8 @@ public record BookServiceImpl(BookRepository bookRepository,
 
     @Override
     public ApiResult<PaginationDTO<BookDTO>> listForUser(MainCriteriaDTO mainCriteriaDTO) {
+        //todo checkbox false -> true
+        MakeQuery.makeQuery(mainCriteriaDTO, "book");
         return null;
     }
 }
