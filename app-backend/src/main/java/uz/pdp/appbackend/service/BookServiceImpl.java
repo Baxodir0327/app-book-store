@@ -1,22 +1,16 @@
 package uz.pdp.appbackend.service;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.pdp.appbackend.entity.Attachment;
 import uz.pdp.appbackend.entity.Book;
-import uz.pdp.appbackend.entity.template.AbsUUIDEntity;
-import uz.pdp.appbackend.enums.RoleEnum;
 import uz.pdp.appbackend.exceptions.ApiResult;
 import uz.pdp.appbackend.exceptions.RestException;
 import uz.pdp.appbackend.mapper.BookMapper;
 import uz.pdp.appbackend.payload.*;
 import uz.pdp.appbackend.repository.AttachmentRepository;
 import uz.pdp.appbackend.repository.BookRepository;
-import uz.pdp.appbackend.security.UserPrincipal;
-import uz.pdp.appbackend.utils.CommonUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -126,8 +120,10 @@ public record BookServiceImpl(BookRepository bookRepository,
         FilterDTO filter = mainCriteriaDTO.getFilter();
         boolean isSearching = filter.getSearch() != null && !filter.getSearch().isEmpty();
         boolean isFiltering = filter.getFilterFields() != null;
+
         if (isSearching || isFiltering)
             sb.append("WHERE ");
+
         addSearchQuery(sb, filter, isSearching);
         addFilterQuery(sb, filter, isFiltering);
         addOrderByPart(mainCriteriaDTO, sb);
@@ -138,116 +134,105 @@ public record BookServiceImpl(BookRepository bookRepository,
     private void addFilterQuery(StringBuilder sb, FilterDTO filter, boolean isFiltering) {
         if (isFiltering) {
             sb.append("AND(");
-
             List<FilterField> fields = filter.getFilterFields();
             for (int i = 0; i < fields.size(); i++) {
                 if (i != 0)
                     sb.append(filter.getFilterOperator());
+
                 sb.append("(");
-
-
                 FilterField filterField = fields.get(i);
                 ComparatorTypeEnum comparatorType = filterField.getComparatorType();
                 FilterFieldValue fieldValue = filterField.getValue();
-                switch (filterField.getColumnType()) {
-                    case SHORT_TEXT -> {
-                        switch (comparatorType) {
-                            case EQ, NOT -> {
-                                sb.append(filterField.getColumn());
-                                if (comparatorType.equals(ComparatorTypeEnum.NOT))
-                                    sb.append("!");
-                                sb.append("~*'")
-                                        .append(fieldValue.getSearchingValue())
-                                        .append("'");
-                            }
-                            case IS_SET, IS_NOT_SET -> {
-                                sb.append(filterField.getColumn());
-                                sb.append(" IS ");
-                                if (comparatorType.equals(ComparatorTypeEnum.IS_SET))
-                                    sb.append("NOT ");
-                                sb.append("NULL ");
-                            }
-                        }
-                    }
-                    case MONEY, NUMBER -> {
-                        switch (comparatorType) {
-                            case EQ -> {
-                            }
-                            case NOT -> {
-                            }
-                            case LT -> {
-                            }
-                            case LTE -> {
-                            }
-                            case GT -> {
-                            }
-                            case GTE -> {
-                            }
-                            case RA -> {
-                            }
-                            case IS_SET -> {
-                            }
-                            case IS_NOT_SET -> {
-                            }
-                        }
-                    }
-                    case CHECKBOX -> {
-                        switch (comparatorType) {
-                            case IS_SET -> {
-                            }
-                            case IS_NOT_SET -> {
-                            }
-                        }
-                    }
-                    case FILE -> {
-                        switch (comparatorType) {
-                            case IS_SET -> {
-                            }
-                            case IS_NOT_SET -> {
-                            }
-                        }
-                    }
-                    case DATE -> {
-                        switch (comparatorType) {
-                            case EQ -> {
-                            }
-                            case NOT -> {
-                            }
-                            case LT -> {
-                            }
-                            case LTE -> {
-                            }
-                            case GT -> {
-                            }
-                            case GTE -> {
-                            }
-                            case RA -> {
-                            }
-                            case IS_SET -> {
-                            }
-                            case IS_NOT_SET -> {
-                            }
-                        }
-                    }
-                }
-
-
+                appendByColumnType(sb, filterField, comparatorType, fieldValue);
                 sb.append(")");
             }
-
             sb.append(") ");
         }
     }
 
+    private void appendByColumnType(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+        switch (filterField.getColumnType()) {
+            case SHORT_TEXT -> appendForShortText(sb, filterField, comparatorType, fieldValue);
+            case MONEY, NUMBER -> appendForNumberOrMoney(sb, filterField, comparatorType, fieldValue);
+            case CHECKBOX -> appendForCheckbox(sb, filterField, comparatorType, fieldValue);
+            case FILE -> appendForFile(sb, filterField, comparatorType, fieldValue);
+            case DATE -> appendForDate(sb, filterField, comparatorType, fieldValue);
+        }
+    }
+
+    private void appendForDate(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+
+    }
+
+    private void appendForFile(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+        switch (comparatorType) {
+            case IS_SET -> {
+            }
+            case IS_NOT_SET -> {
+            }
+        }
+    }
+
+    private void appendForCheckbox(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+        switch (comparatorType) {
+            case IS_SET -> {
+            }
+            case IS_NOT_SET -> {
+            }
+        }
+    }
+
+    private void appendForNumberOrMoney(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+        switch (comparatorType) {
+            case EQ -> {
+            }
+            case NOT -> {
+            }
+            case LT -> {
+            }
+            case LTE -> {
+            }
+            case GT -> {
+            }
+            case GTE -> {
+            }
+            case RA -> {
+            }
+            case IS_SET -> {
+            }
+            case IS_NOT_SET -> {
+            }
+        }
+    }
+
+    private void appendForShortText(StringBuilder sb, FilterField filterField, ComparatorTypeEnum comparatorType, FilterFieldValue fieldValue) {
+        switch (comparatorType) {
+            case EQ, NOT -> {
+                sb.append(filterField.getColumn());
+                if (comparatorType.equals(ComparatorTypeEnum.NOT))
+                    sb.append("!");
+                sb.append("~*'")
+                        .append(fieldValue.getSearchingValue())
+                        .append("'");
+            }
+            case IS_SET, IS_NOT_SET -> {
+                sb.append(filterField.getColumn());
+                sb.append(" IS ");
+                if (comparatorType.equals(ComparatorTypeEnum.IS_SET))
+                    sb.append("NOT ");
+                sb.append("NULL ");
+            }
+        }
+    }
+
     private void addSearchQuery(StringBuilder sb, FilterDTO filter, boolean isSearching) {
-        String search = filter.getSearch();
         if (isSearching) {
+            String search = filter.getSearch();
             sb.append("(");
             List<String> searchingColumns = filter.getSearchingColumns();
             for (int i = 0; i < searchingColumns.size(); i++) {
                 if (i != 0)
                     sb.append(" OR ");
-
                 String column = searchingColumns.get(i);
                 sb.append(column)
                         .append("~*'")
